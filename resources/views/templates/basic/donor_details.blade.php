@@ -3,6 +3,8 @@
 @php
     $breadcrumb = getContent('breadcrumb.content', true);
 @endphp
+
+{{-- start of internal css --}}
 <style>
 	.dropdown-btn{
 		padding: 0.75rem 1.6rem;
@@ -29,9 +31,11 @@
       color: #505050;
       border: 1px solid #3d3b5600;
 	}
-	
 </style>
-<div class="profile-header dark--overlay bg_img" style="background-image: url({{getImage('assets/images/frontend/breadcrumb/'. @$breadcrumb->data_values->background_image, '1920x1440')}});">
+{{-- End of enternal css --}}
+
+
+<div class="profile-header dark--overlay bg_img " style="background-image: url({{getImage('assets/images/frontend/breadcrumb/'. @$breadcrumb->data_values->background_image, '1920x1440')}});">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
@@ -210,6 +214,8 @@
 		</div>
 	</div>
 </section>
+
+{{-- Sorry Modal --}}
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 	  <div class="modal-content" style="background :#17173A">

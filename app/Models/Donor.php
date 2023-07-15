@@ -32,4 +32,8 @@ class Donor extends Model
         return $this->belongsTo(City::class, 'city_id');
     }
 
+    function bloodRequest(){
+        return $this->hasMany(BloodRequestMessage::class, 'donor_id', 'id');
+    }
+
 }

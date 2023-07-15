@@ -364,7 +364,8 @@ class SiteController extends Controller
         dd('done.');
     }
 
-    function alfa_sms_api($name,
+    // alfa sms api calling method
+    private function alfa_sms_api($name,
     $number,
     $hospital,
     $district,
