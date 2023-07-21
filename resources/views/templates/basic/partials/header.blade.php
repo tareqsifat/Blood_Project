@@ -1,22 +1,57 @@
 @php
     $contact = getContent('contact_us.content', true);
 @endphp
+<style>
+    .user-image {
+    width: 40px; /* Set the desired width */
+    height: 40px; /* Set the desired height */
+    object-fit: cover; /* Maintain aspect ratio and crop if necessary */
+}
+</style>
 <header class="header">
     <div class="header__top">
         <div class="container">
             <div class="row align-items-center gy-2">
-                <div class="col-lg-6 col-md-8 col-sm-9">
+                <div class="col-lg-6 col-md-6 col-sm-6">
                     <ul class="header__info-list d-flex flex-wrap align-items-center justify-content-sm-start justify-content-center">
                         <li><a href="tel:{{__($contact->data_values->contact_number)}}"><i class="las la-phone"></i> {{__($contact->data_values->contact_number)}}</a></li>
                        <li><a href="mailto:{{__($contact->data_values->email_address)}}"><i class="las la-envelope"></i> {{__($contact->data_values->email_address)}}</a></li>
                     </ul>
                 </div>
-                <div class="col-lg-6 col-md-4 col-sm-3 text-sm-end text-center">
-                    <select class="language-select langSel">
-                        @foreach($language as $item)
-                            <option value="{{$item->code}}" @if(session('lang') == $item->code) selected  @endif>{{ __($item->name) }}</option>
-                        @endforeach
-                    </select>
+                <div class="col-lg-6 col-md-6 col-sm-6 text-sm-end text-center">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6" >
+                                <select class="language-select langSel">
+                                    @foreach($language as $item)
+                                        <option value="{{$item->code}}" @if(session('lang') == $item->code) selected  @endif>{{ __($item->name) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                @if(Auth::check())
+                                    <div class="dropdown">
+                                        <button class="dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false"
+                                        style="background-color: transparent; border: 3px solid #FB3640;">
+                                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png" alt="User" class="rounded-circle user-image">
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                                            <li><a class="dropdown-item" href="#">Name 1 - Username 1</a></li>
+                                            <li><a class="dropdown-item" href="#">Name 2 - Username 2</a></li>
+                                            <li><a class="dropdown-item" href="#">Name 3 - Username 3</a></li>
+                                            <!-- Add more list items as needed -->
+                                        </ul>
+                                    </div>
+                                @else
+                                    <div class="container">
+                                        <div>
+                                            <button class="btn btn-md btn--base d-flex align-items-center"  data-bs-toggle="modal" data-bs-target="#exampleModal">Login / Register</button>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

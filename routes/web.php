@@ -172,6 +172,12 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
     });
 });
 
+Route::namespace('BloodSeeker')->prefix('blood-seeker')->name('blood-seeker.')->group(function () {
+    Route::prefix('auth')->group(function(){
+        Route::get('login', 'AuthController@login')->name('login');
+    });
+});
+
 Route::get('/donor', 'SiteController@donor')->name('donor');
 Route::get('/donor/{slug}/{id}', 'SiteController@donorDetails')->name('donor.details');
 Route::get('/donor/search', 'SiteController@donorSearch')->name('donor.search');

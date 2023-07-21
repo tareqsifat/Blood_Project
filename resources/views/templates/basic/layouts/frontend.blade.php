@@ -16,14 +16,14 @@
   <title>{{ $general->sitename(__($pageTitle)) }}</title>
   @include('partials.seo')
   <link rel="icon" type="image/png" href="{{getImage(imagePath()['logoIcon']['path'] .'/favicon.png')}}" sizes="16x16">
-    <link rel="stylesheet" href="{{asset($activeTemplateTrue.'frontend/css/lib/bootstrap.min.css')}}"  ">
-  <link rel="stylesheet" href="{{asset($activeTemplateTrue.'frontend/css/all.min.css')}}"  ">
-  <link rel="stylesheet" href="{{asset($activeTemplateTrue.'frontend/css/line-awesome.min.css')}}"  ">
-  <link rel="stylesheet" href="{{asset($activeTemplateTrue.'frontend/css/lightcase.css')}}"  ">
-  <link rel="stylesheet" href="{{asset($activeTemplateTrue.'frontend/css/lib/slick.css')}}"  ">
-  <link rel="stylesheet" href="{{asset($activeTemplateTrue.'frontend/css/main.css')}}"  ">
+    <link rel="stylesheet" href="{{asset($activeTemplateTrue.'frontend/css/lib/bootstrap.min.css')}}">
+  <link rel="stylesheet" href="{{asset($activeTemplateTrue.'frontend/css/all.min.css')}}">
+  <link rel="stylesheet" href="{{asset($activeTemplateTrue.'frontend/css/line-awesome.min.css')}}">
+  <link rel="stylesheet" href="{{asset($activeTemplateTrue.'frontend/css/lightcase.css')}}">
+  <link rel="stylesheet" href="{{asset($activeTemplateTrue.'frontend/css/lib/slick.css')}}">
+  <link rel="stylesheet" href="{{asset($activeTemplateTrue.'frontend/css/main.css')}}">
   <link rel="stylesheet" href="{{asset($activeTemplateTrue.'frontend/css/preloader.css')}}">
-  <link rel="stylesheet" href="{{asset($activeTemplateTrue.'css/custom.css')}}"  ">
+  <link rel="stylesheet" href="{{asset($activeTemplateTrue.'css/custom.css')}}">
   
   {{-- <link rel="stylesheet" href="{{asset($activeTemplateTrue.'frontend/css/lib/bootstrap.min.css')}}" media="print" onload="this.media='all'; this.onload=null;">
   <link rel="stylesheet" href="{{asset($activeTemplateTrue.'frontend/css/all.min.css')}}" media="print" onload="this.media='all'; this.onload=null;">
@@ -83,5 +83,37 @@
                 });
             })(jQuery);
         </script>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card-body">
+                            <form method="POST" action="{{route('donor.contact')}}" class="contact-donor-form">
+                                @csrf
+                                <div class="form-group">
+                                    <input type="text" name="name" value="{{old('name')}}" class="form--control form-control-md" placeholder="@lang('Enter name')" maxlength="80" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="number" name="number" value="{{old('number')}}" class="form--control form-control-md" placeholder="@lang('Enter phone number')" maxlength="80" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="hospital" value="{{old('hospital')}}" class="form--control form-control-md" placeholder="@lang('name of the hospital')" maxlength="80" required>
+                                </div>
+                                <button type="submit" class="btn btn--base w-100">@lang('Message Now')</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
     </body>
 </html>
