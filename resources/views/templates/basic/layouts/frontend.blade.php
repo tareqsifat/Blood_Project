@@ -71,6 +71,7 @@
         <script defer src="{{asset($activeTemplateTrue.'frontend/js/lib/lightcase.js')}}"></script>
         <script defer src="{{asset($activeTemplateTrue.'frontend/js/app.js')}}"></script>
         <script defer src="{{asset($activeTemplateTrue.'frontend/js/preloader.js')}}"></script>
+        <script defer src="{{asset($activeTemplateTrue.'frontend/js/custom.js')}}"></script>
         @stack('script-lib')
         @stack('script')
         @include('partials.plugins')
@@ -83,37 +84,85 @@
                 });
             })(jQuery);
         </script>
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="sendAuthModal" tabindex="-1" aria-labelledby="sendAuthModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="card-body">
-                            <form method="POST" action="{{route('donor.contact')}}" class="contact-donor-form">
-                                @csrf
-                                <div class="form-group">
-                                    <input type="text" name="name" value="{{old('name')}}" class="form--control form-control-md" placeholder="@lang('Enter name')" maxlength="80" required>
-                                </div>
-                                <div class="form-group">
-                                    <input type="number" name="number" value="{{old('number')}}" class="form--control form-control-md" placeholder="@lang('Enter phone number')" maxlength="80" required>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" name="hospital" value="{{old('hospital')}}" class="form--control form-control-md" placeholder="@lang('name of the hospital')" maxlength="80" required>
-                                </div>
-                                <button type="submit" class="btn btn--base w-100">@lang('Message Now')</button>
-                            </form>
+                <div class="modal-content custom--card section--bg2 form-holder" >
+                    <form method="POST" action="{{route('blood-seeker.send_auth_otp')}}" class="login_register_form contact-donor-form">
+                        @csrf
+                        <div class="modal-header" style="padding: 0.9981rem 1.2rem">
+                            <h5 class="text-white">@lang('login')</h5>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
+                        <div class="modal-body">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label class="text-white" for="mobile_number">@lang('Enter Mobile Number')</label>
+                                    <input type="text" name="mobile_number" value="{{old('mobile_number')}}" class="form--control form-control-md" placeholder="@lang('Enter Mobile Number')" maxlength="80" required>
+                                    <p class="text-danger invalid_number d-none">@lang('not a valid bangladeshi mobile number')</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary registration_modal_call" data-bs-dismiss="modal" style="background-color: #ffffff26">@lang('registration')</button>
+                            <button type="submit" class="btn btn-primary">@lang('login')</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-        
+        <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content custom--card section--bg2 form-holder" >
+                    <form method="POST" action="{{route('blood-seeker.register')}}" class="register_form contact-donor-form">
+                        @csrf
+                        <div class="modal-header" style="padding: 0.9981rem 1.2rem">
+                            <h5 class="text-white">@lang('register')</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card-body">
+                                <p class="text-white pb-2">@lang('user not found please provide name and mobile number for register')</p>
+                                <div class="form-group">
+                                    <label class="text-white" for="mobile_number">@lang('Enter Mobile Number')</label>
+                                    <input type="text" name="mobile_number" value="{{old('mobile_number')}}" class="form--control form-control-md" placeholder="@lang('Enter Mobile Number')" maxlength="80" required>
+                                    <p class="text-danger invalid_number d-none">@lang('not a valid bangladeshi mobile number')</p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="text-white" for="name">@lang('Enter Your Name')</label>
+                                    <input type="text" name="name" value="{{old('name')}}" class="form--control form-control-md" placeholder="@lang('Enter Mobile Name')" maxlength="80" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">@lang('register')</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="verifyOtpModal" tabindex="-1" aria-labelledby="verifyOtpLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content custom--card section--bg2 form-holder" >
+                    <form method="POST" action="{{route('blood-seeker.validate_otp')}}" class="verify_otp_form contact-donor-form">
+                        @csrf
+                        <div class="modal-header" style="padding: 0.9981rem 1.2rem">
+                            <h5 class="text-white">@lang('Enter Otp')</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label class="text-white" for="mobile_number">@lang('Enter Otp')</label>
+                                    <input type="hidden" name="mobile_number" value="{{session()->has('mobile_number') ? session()->get('mobile_number') : request()->cookie('mobile_number')}}">
+                                    <input type="number" autocomplete="on" name="otp" value="{{old('otp')}}" class="form--control form-control-md" placeholder="@lang('Enter Otp')" maxlength="80" required>
+                                    <p class="text-danger otp_expired d-none">@lang('Otp Expired')</p>
+                                    <p class="text-danger otp_not_found d-none">@lang('Opt Not Found')</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">@lang('confirm')</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

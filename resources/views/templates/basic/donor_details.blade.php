@@ -139,7 +139,7 @@
 					</li>
 					<li>
 						<span class="caption">@lang('Phone')</span>
-						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-left: 20px">
+						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sorryModal" style="margin-left: 20px">
 							{{__($donor->phone)}}
 						</button>
 					</li>
@@ -162,15 +162,19 @@
 							@endif
 						</h5>
 					</div>
+					@php
+						$auth_name = Auth::check() ? Auth::user()->name : '';
+						$auth_number = Auth::check() ? Auth::user()->mobile : '';
+					@endphp
 					<div class="card-body">
 						<form method="POST" action="{{route('donor.contact')}}" class="contact-donor-form">
 							@csrf
 							<input type="hidden" name="donor_id" value="{{$donor->id}}">
 							<div class="form-group">
-								<input type="text" name="name" value="{{old('name')}}" class="form--control form-control-md" placeholder="@lang('Enter name')" maxlength="80" required>
+								<input type="text" name="name" value="{{ old('name', $auth_name) }}" class="form--control form-control-md" placeholder="@lang('Enter name')" maxlength="80" required>
 							</div>
 							<div class="form-group">
-								<input type="number" name="number" value="{{old('number')}}" class="form--control form-control-md" placeholder="@lang('Enter phone number')" maxlength="80" required>
+								<input type="number" name="number" value="{{old('number', $auth_number) }}" class="form--control form-control-md" placeholder="@lang('Enter phone number')" maxlength="80" required>
 							</div>
 							<div class="form-group">
 								<input type="text" name="hospital" value="{{old('hospital')}}" class="form--control form-control-md" placeholder="@lang('name of the hospital')" maxlength="80" required>
@@ -201,7 +205,7 @@
 									<input type="date" name="donation_time" value="{{old('donation_time')}}" class="form--control form-control-md" placeholder="@lang('Blood donation time')" maxlength="80" required>
 								</div>
 							</div>
-							<button type="submit" class="btn btn--base w-100">@lang('Message Now')</button>
+							<button class="btn btn--base w-100" @if($sorry_message != null) data-bs-toggle="modal" data-bs-target="#MessageLimitExceetedModal" type="button" @else type="submit" @endif>@lang('Message Now')</button>
 						</form>
 					</div>
 				</div>
@@ -216,11 +220,11 @@
 </section>
 
 {{-- Sorry Modal --}}
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="sorryModal" tabindex="-1" aria-labelledby="sorryModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 	  <div class="modal-content" style="background :#17173A">
 		<div class="modal-header" style="border-bottom:1px solid #ffffff26">
-		  <h5 class="modal-title text-white" id="exampleModalLabel">দুঃখিত!!</h5>
+		  <h5 class="modal-title text-white" id="sorryModalLabel">দুঃখিত!!</h5>
 		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background-color:#fff"></button>
 		</div>
 		<div class="modal-body">
@@ -228,6 +232,23 @@
 		</div>
 		<div class="modal-footer" style="border-top: 1px solid #ffffff26">
 		  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #ffffff26">বন্ধ করুন</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+  <div class="modal fade" id="MessageLimitExceetedModal" tabindex="-1" aria-labelledby="MessageLimitExceetedModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content" style="background :#17173A">
+		<div class="modal-header" style="border-bottom:1px solid #ffffff26">
+		  <h5 class="modal-title text-white" id="sorryModalLabel">দুঃখিত!!</h5>
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background-color:#fff"></button>
+		</div>
+		<div class="modal-body">
+		  <span class="text-white">{{$sorry_message}}</span>
+		</div>
+		<div class="modal-footer" style="border-top: 1px solid #ffffff26">
+		  <button type="button" class="btn btn-secondary login_modal_call" data-bs-dismiss="modal" style="background-color: #ffffff26">@lang('login')</button>
+		  <button type="button" class="btn btn-secondary registration_modal_call" data-bs-dismiss="modal" style="background-color: #ffffff26">@lang('registration')</button>
 		</div>
 	  </div>
 	</div>

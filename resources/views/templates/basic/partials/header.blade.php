@@ -3,10 +3,17 @@
 @endphp
 <style>
     .user-image {
-    width: 40px; /* Set the desired width */
-    height: 40px; /* Set the desired height */
-    object-fit: cover; /* Maintain aspect ratio and crop if necessary */
-}
+        width: 40px; /* Set the desired width */
+        height: 40px; /* Set the desired height */
+        object-fit: cover; /* Maintain aspect ratio and crop if necessary */
+    }
+    .login-btn a {
+            color: #ffffff !important
+        
+    }
+    .login-btn a:hover{
+            color: #ffffff !important
+        }
 </style>
 <header class="header">
     <div class="header__top">
@@ -36,16 +43,19 @@
                                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png" alt="User" class="rounded-circle user-image">
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                                            <li><a class="dropdown-item" href="#">Name 1 - Username 1</a></li>
-                                            <li><a class="dropdown-item" href="#">Name 2 - Username 2</a></li>
-                                            <li><a class="dropdown-item" href="#">Name 3 - Username 3</a></li>
+                                            <li><a class="dropdown-item" href="#">{{Auth::user()->name}}</a></li>
+                                            <form action="{{ route('blood-seeker.logout') }}" method="post">
+                                                @csrf
+                                                <li><button type="submit" class="dropdown-item">Logout</button></li>
+                                            </form>
                                             <!-- Add more list items as needed -->
                                         </ul>
                                     </div>
                                 @else
                                     <div class="container">
                                         <div>
-                                            <button class="btn btn-md btn--base d-flex align-items-center"  data-bs-toggle="modal" data-bs-target="#exampleModal">Login / Register</button>
+                                            <button class="btn btn-md btn--base d-flex align-items-center"  data-bs-toggle="modal" data-bs-target="#sendAuthModal">Login / Register</button>
+                                            {{-- <button class="btn btn-md btn--base d-flex align-items-center login-btn"><a href="{{ route('blood-seeker.return_login_form')}}">Login / Register</a></button> --}}
                                         </div>
                                     </div>
                                 @endif

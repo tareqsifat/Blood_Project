@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Advertisement;
 use App\Models\Blood;
+use App\Models\BloodRequestMessage;
 use App\Models\City;
 use App\Models\Donor;
 use App\Models\Frontend;
@@ -15,10 +16,15 @@ use App\Models\SupportAttachment;
 use App\Models\SupportMessage;
 use App\Models\SupportTicket;
 use App\Rules\FileTypeValidate;
+use App\Services\SendOtpService;
 use Carbon\Carbon;
 use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Lang;
+use PHPMailer\PHPMailer\OAuth;
 
 class SiteController extends Controller
 {
@@ -76,7 +82,26 @@ class SiteController extends Controller
         $hiddenDigits = '****';
         $modifiedPhoneNumber = substr($phoneNumber, 0, 3) . $hiddenDigits . substr($phoneNumber, -4);
         $donor->phone = $modifiedPhoneNumber;
-        return view($this->activeTemplate . 'donor_details', compact('pageTitle', 'donor', 'bloods', 'cities'));
+        $user_data = $_SERVER['HTTP_USER_AGENT'] . " " . request()->ip();
+        $sorry_message = null;
+        if(Auth::check()){
+            $user = Auth::user();
+            $today = Carbon::now()->format('Y-m-d');
+
+            // Count the messages created by the user on the current date
+            $messageCount = $user->message()->whereDate('created_at', $today)->count();
+        // dd($messageCount);
+            if($messageCount > 10) {
+                $sorry_message = trans("Sorry, you can't send more than 10 messages in a day");
+            }
+        }else{
+            $message = BloodRequestMessage::where('user_id', $user_data)->first();
+            if(isset($message)){
+                $sorry_message = trans("you have already send a message to send more message please login"); 
+            }
+        }
+
+        return view($this->activeTemplate . 'donor_details', compact('pageTitle', 'donor', 'bloods', 'cities', 'sorry_message'));
     }
 
     public function donorSearch(Request $request)
@@ -127,16 +152,8 @@ class SiteController extends Controller
 
         ]);
         $donor = Donor::findOrFail($request->donor_id);
-        // notify($donor, 'DONOR_CONTACT', [
-        //     'name' => $request->name,
-        //     'number' => $request->number,
-        //     'message' => $request->message
-        // ]);
-        // $message = $request->message . "& my number is: " . $request->number;
-        // $encoded_msg = urlencode($message);
-        // $api_key = getenv('ALFA_SMS_API_KEY');
-        
-        $this->alfa_sms_api(
+
+        $this->send_sms_to_donor(
             $request->name,
             $request->number,
             $request->hospital,
@@ -144,7 +161,7 @@ class SiteController extends Controller
             $request->thana,
             $request->blood_group,
             $request->donation_time,
-            $donor->phone
+            $donor
         );
         $notify[] = ['success', 'Request has been submitted'];
         return back()->withNotify($notify);
@@ -364,39 +381,28 @@ class SiteController extends Controller
         dd('done.');
     }
 
-    // alfa sms api calling method
-    private function alfa_sms_api($name,
-    $number,
-    $hospital,
-    $district,
-    $thana,
-    $blood_group,
-    $donation_time,
-    $donor_number)
+    private function send_sms_to_donor($name,$number,$hospital,$district,$thana,
+    $blood_group,$donation_time,$donor_object)
     {
+        $user_data = $_SERVER['HTTP_USER_AGENT'] . " " . request()->ip();
+
+        $blood_message = new BloodRequestMessage();
+        $blood_message->name = $name;
+        $blood_message->donor_id = $donor_object->id;
+        $blood_message->user_id = Auth::check() ? Auth::user()->id : $user_data;
+        $blood_message->number = $number;
+        $blood_message->hospital_name = $hospital;
+        $blood_message->district = $district;
+        $blood_message->thana = $thana;
+        $blood_message->blood_group = $blood_group;
+        $blood_message->donation_date = $donation_time;
+        $blood_message->save();
+
         $message ="আপনার কাছে ১ ব্যাগ " . $blood_group . " রক্তের আবেদন করা হয়েছে। রক্ত লাগবেঃ " . $donation_time . 
         ", (". $hospital ."), " . $thana . ", " . $district . ", নামঃ " . $name . ", মোবাইল নাম্বারঃ " . $number ."। আপনার রক্তে বাচতে পারে একটি প্রাণ";
-        $encoded_msg = urlencode("$message");
-        $api_key = getenv('ALFA_SMS_API_KEY');
+     
 
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api.sms.net.bd/sendsms?api_key='. $api_key . '&msg=' . $encoded_msg . '&to=' . $donor_number . '',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_HTTPHEADER => array(
-                'Cookie: PHPSESSID=0ugc0agam2ucebue7k9jdiimdo'
-            ),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
+        $otpService = new SendOtpService();
+        $otpService->alfa_sms_api($donor_object->phone, $message);
     }
 }

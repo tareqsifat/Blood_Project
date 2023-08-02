@@ -186,5 +186,17 @@
     "Thana" : "থানা",
     "Blood donation time":"রক্ত কখন লাগবে",
     "District" : "জেলা",
-    "Blood group" : "রক্তের গ্রুপ"
+    "Blood group" : "রক্তের গ্রুপ",
+    "login" : " লগিন",
+    "registration":"রেজিস্ট্রেশন",
+    "user not found please 'provide name and mobile number for register": "আপনার মোবাইল নাম্বার দিয়ে কোন তথ্য খুঁজে পাওয়া যায়নি। নতুন করে রেজিস্ট্রেশন করতে নাম ও মোবাইল নাম্বার দিন",
+    "not a valid bangladeshi mobile number": "বৈধ বাংলাদেশী মোবাইল নাম্বার নয়", 
+    "Enter Otp": "ওটিপি দিন",
+    "confirm": "নিশ্চিত করুন",
+    "Otp Expired":"ওটিপির মেয়াদ শেষ",
+    "Opt Not Found":"ওটিপি পাওয়া যায়নি",
+    "sorry you can't sand more than 10 message in a day": "দুঃখিত, আপনি এক দিনে ১০টির অধিক বার বার্তা প্রেরণ করতে পারবেন না",
+    "you have already send a message to send more message please login":"আপনি ইতিমধ্যে একটি বার্তা প্রেরণ করেছেন। দয়া করে লগইন করুন।",
+    "Enter Mobile Number":"আপনার মোবাইল নাম্বার লিখুন",
+    "Enter Mobile Name":"আপনার নাম লিখুন"
 }

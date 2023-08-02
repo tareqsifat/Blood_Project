@@ -174,7 +174,11 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
 
 Route::namespace('BloodSeeker')->prefix('blood-seeker')->name('blood-seeker.')->group(function () {
     Route::prefix('auth')->group(function(){
-        Route::get('login', 'AuthController@login')->name('login');
+        Route::post('send_auth_otp', 'AuthController@send_auth_otp')->name('send_auth_otp');
+        Route::post('validate_otp', 'AuthController@validateOtp')->name('validate_otp');
+        Route::post('login', 'AuthController@login')->name('login');
+        Route::post('register', 'AuthController@register')->name('register');
+        Route::post('logout', 'AuthController@logout')->name('logout');
     });
 });
 

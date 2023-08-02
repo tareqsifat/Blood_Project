@@ -5,9 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Model
+class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -19,7 +20,7 @@ class User extends Model
     protected $fillable = [
         'name',
         'email',
-        'password',
+        'mobile',
     ];
 
     /**
@@ -40,4 +41,9 @@ class User extends Model
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    function message() {
+        return $this->hasMany(BloodRequestMessage::class, 'user_id', 'id');
+    }
 }

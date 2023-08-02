@@ -16,8 +16,8 @@ class CreateBloodRequestMessagesTable extends Migration
         Schema::create('blood_request_messages', function (Blueprint $table) {
             $table->id();
             $table->string('name',100)->nullable()->default("NULL");
-            $table->integer('donor_id')->nullable()->default("NULL");
-            $table->integer('user_id')->nullable()->default("NULL");
+            $table->integer('donor_id')->nullable()->default(null);
+            $table->integer('user_id')->nullable()->default(null);
             $table->string('number',100)->nullable()->default("NULL");
             $table->string('hospital_name',100)->nullable()->default("NULL");
             $table->string('district',100)->nullable()->default("NULL");
