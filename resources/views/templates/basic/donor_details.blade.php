@@ -139,11 +139,8 @@
 					</li>
 					<li>
 						<span class="caption">@lang('Phone')</span>
-						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#sorryModal" style="margin-left: 20px">
-							{{__($donor->phone)}}
-						</button>
+						<span class="value" data-bs-toggle="modal" data-bs-target="#sorryModal">{{__($donor->phone)}}</span>
 					</li>
-					
 				</ul>
 
 				<div class="mt-4">
