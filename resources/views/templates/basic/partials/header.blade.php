@@ -36,30 +36,6 @@
                                     @endforeach
                                 </select>
                             </div>
-                            {{-- <div class="col-lg-6 col-md-6 col-sm-6">
-                                @if(Auth::check())
-                                    <div class="dropdown">
-                                        <button class="dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false"
-                                        style="background-color: transparent; border: 3px solid #FB3640;">
-                                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png" alt="User" class="rounded-circle user-image">
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                                            <li><a class="dropdown-item" href="#">{{Auth::user()->name}}</a></li>
-                                            <form action="{{ route('blood-seeker.logout') }}" method="post">
-                                                @csrf
-                                                <li><button type="submit" class="dropdown-item">Logout</button></li>
-                                            </form>
-                                            <!-- Add more list items as needed -->
-                                        </ul>
-                                    </div>
-                                @else
-                                    <div class="container">
-                                        <div>
-                                            <button class="btn btn-md btn--base d-flex align-items-center"  data-bs-toggle="modal" data-bs-target="#sendAuthModal">Login / Register</button>
-                                        </div>
-                                    </div>
-                                @endif
-                            </div> --}}
                         </div>
                     </div>
                 </div>
