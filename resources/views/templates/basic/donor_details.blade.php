@@ -4,7 +4,6 @@
     $breadcrumb = getContent('breadcrumb.content', true);
 @endphp
 
-{{-- start of internal css --}}
 <style>
 	.dropdown-btn{
 		padding: 0.75rem 1.6rem;
@@ -199,7 +198,7 @@
 									</select>
 								</div>
 								<div class="form-group col-6">
-									<input type="date" name="donation_time" value="{{old('donation_time')}}" class="form--control form-control-md" placeholder="@lang('Blood donation time')" maxlength="80" required>
+									<input type="text" id="donation_time" name="donation_time" value="{{old('donation_time')}}" class="form--control form-control-md" onfocus="(this.type='date')" placeholder="@lang('Blood donation time')" maxlength="80" required>
 								</div>
 							</div>
 							<button class="btn btn--base w-100" @if($sorry_message != null) data-bs-toggle="modal" data-bs-target="#MessageLimitExceetedModal" type="button" @else type="submit" @endif>@lang('Message Now')</button>

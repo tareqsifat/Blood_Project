@@ -28,6 +28,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 text-sm-end text-center">
                     <div class="container">
                         <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6"></div>
                             <div class="col-lg-6 col-md-6 col-sm-6" >
                                 <select class="language-select langSel">
                                     @foreach($language as $item)
@@ -35,7 +36,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
+                            {{-- <div class="col-lg-6 col-md-6 col-sm-6">
                                 @if(Auth::check())
                                     <div class="dropdown">
                                         <button class="dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false"
@@ -55,11 +56,10 @@
                                     <div class="container">
                                         <div>
                                             <button class="btn btn-md btn--base d-flex align-items-center"  data-bs-toggle="modal" data-bs-target="#sendAuthModal">Login / Register</button>
-                                            {{-- <button class="btn btn-md btn--base d-flex align-items-center login-btn"><a href="{{ route('blood-seeker.return_login_form')}}">Login / Register</a></button> --}}
                                         </div>
                                     </div>
                                 @endif
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
