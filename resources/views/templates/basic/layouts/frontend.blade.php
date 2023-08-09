@@ -96,7 +96,7 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label class="text-white" for="mobile_number">@lang('Enter Mobile Number')</label>
-                                    <input type="text" name="mobile_number" value="{{old('mobile_number')}}" class="form--control form-control-md" placeholder="@lang('Enter Mobile Number')" maxlength="80" required>
+                                    <input type="text" name="mobile_number" value="{{old('mobile_number')}}" class="form--control form-control-md send_auth_otp_number" placeholder="@lang('Enter Mobile Number')" maxlength="80" required>
                                     <p class="text-danger invalid_number d-none">@lang('not a valid bangladeshi mobile number')</p>
                                 </div>
                             </div>
@@ -122,7 +122,7 @@
                                 <p class="text-white pb-2">@lang('user not found please provide name and mobile number for register')</p>
                                 <div class="form-group">
                                     <label class="text-white" for="mobile_number">@lang('Enter Mobile Number')</label>
-                                    <input type="text" name="mobile_number" value="{{old('mobile_number')}}" class="form--control form-control-md" placeholder="@lang('Enter Mobile Number')" maxlength="80" required>
+                                    <input type="text" name="mobile_number" value="{{old('mobile_number')}}" class="form--control form-control-md register_modal_number" placeholder="@lang('Enter Mobile Number')" maxlength="80" required>
                                     <p class="text-danger invalid_number d-none">@lang('not a valid bangladeshi mobile number')</p>
                                 </div>
                                 <div class="form-group">
@@ -149,8 +149,10 @@
                         <div class="modal-body">
                             <div class="card-body">
                                 <div class="form-group">
+                                    {{-- {{session()->has('mobile_number') ? session()->get('mobile_number') : request()->cookie('mobile_number')}} --}}
+                                    <label class="text-white" for="mobile_number">@lang('mobile number')</label>
+                                    <input type="text" class="form--control form-control-md verify_otp_mobile" name="mobile_number" value="" placeholder="@lang('mobile number')">
                                     <label class="text-white" for="mobile_number">@lang('Enter Otp')</label>
-                                    <input type="hidden" name="mobile_number" value="{{session()->has('mobile_number') ? session()->get('mobile_number') : request()->cookie('mobile_number')}}">
                                     <input type="number" autocomplete="on" name="otp" value="{{old('otp')}}" class="form--control form-control-md" placeholder="@lang('Enter Otp')" maxlength="80" required>
                                     <p class="text-danger otp_expired d-none">@lang('Otp Expired')</p>
                                     <p class="text-danger otp_not_found d-none">@lang('Opt Not Found')</p>

@@ -198,5 +198,6 @@
     "sorry you can't sand more than 10 message in a day": "দুঃখিত, আপনি এক দিনে ১০টির অধিক বার বার্তা প্রেরণ করতে পারবেন না",
     "you have already send a message to send more message please login":"আপনি ইতিমধ্যে একটি বার্তা প্রেরণ করেছেন। দয়া করে লগইন করুন।",
     "Enter Mobile Number":"আপনার মোবাইল নাম্বার লিখুন",
-    "Enter Mobile Name":"আপনার নাম লিখুন"
+    "Enter Mobile Name":"আপনার নাম লিখুন",
+    "mobile number":"মোবাইল নাম্বার"
 }

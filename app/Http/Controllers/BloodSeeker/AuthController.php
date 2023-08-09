@@ -15,11 +15,6 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    function return_login_form() {
-        $pageTitle = "Login form";
-        return view('templates/basic/auth/blood-seeker-login', compact('pageTitle'));
-    }
-
     public function login(Request $request) {
 
         $user = User::where('mobile', $request->mobile_number)->first();
@@ -49,9 +44,6 @@ class AuthController extends Controller
         return response()->json('register successful',200);
     }
     
-    public function return_register_form(){
-        return view('templates/basic/components/register-component');
-    }
 
     function send_auth_otp(Request $request) {
         $this->validate($request, [
