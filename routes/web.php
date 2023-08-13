@@ -172,6 +172,23 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
     });
 });
 
+Route::namespace('Donor')->prefix('donor_login')->name('donor_login.')->group(function () {
+    Route::namespace('Auth')->group(function () {
+        Route::get('/', 'DonorController@showLoginForm')->name('login');
+        Route::post('send_auth_otp', 'DonorController@send_auth_otp')->name('send_auth_otp');
+        Route::post('/', 'DonorController@login')->name('login');
+        Route::get('logout', 'DonorController@logout')->name('logout');
+    });
+
+    // Route::middleware('admin')->group(function () {
+    //     Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');
+    //     Route::get('profile', 'AdminController@profile')->name('profile');
+    //     Route::post('profile', 'AdminController@profileUpdate')->name('profile.update');
+    //     Route::get('password', 'AdminController@password')->name('password');
+    //     Route::post('password', 'AdminController@passwordUpdate')->name('password.update');
+    // });
+});
+
 Route::namespace('BloodSeeker')->prefix('blood-seeker')->name('blood-seeker.')->group(function () {
     Route::prefix('auth')->group(function(){
         Route::post('send_auth_otp', 'AuthController@send_auth_otp')->name('send_auth_otp');
