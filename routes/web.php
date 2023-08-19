@@ -176,8 +176,16 @@ Route::namespace('Donor')->prefix('donor_login')->name('donor_login.')->group(fu
     Route::namespace('Auth')->group(function () {
         Route::get('/', 'DonorController@showLoginForm')->name('login');
         Route::post('send_auth_otp', 'DonorController@send_auth_otp')->name('send_auth_otp');
+        Route::get('/verify_otp/{number}', 'DonorController@showOtpVerifyForm')->name('show_otp_verify_form');
+        Route::post('verify_otp', 'DonorController@verifyOtp')->name('verify_otp');
         Route::post('/', 'DonorController@login')->name('login');
-        Route::get('logout', 'DonorController@logout')->name('logout');
+
+        Route::middleware('donor')->group(function() {
+            Route::get('donor_dashboard', 'DonorController@dashboard')->name('dashboard');
+            Route::get('logout', 'DonorController@logout')->name('logout');
+            Route::post('update_donor', 'DonorController@donorUpdate')->name('donor_update');
+        });
+
     });
 
     // Route::middleware('admin')->group(function () {

@@ -46,4 +46,9 @@ class User extends Authenticatable
     function message() {
         return $this->hasMany(BloodRequestMessage::class, 'user_id', 'id');
     }
+
+    public function donor()
+    {
+        return $this->belongsTo(Donor::class);
+    }
 }

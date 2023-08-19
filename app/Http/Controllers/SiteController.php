@@ -15,6 +15,7 @@ use App\Models\Subscriber;
 use App\Models\SupportAttachment;
 use App\Models\SupportMessage;
 use App\Models\SupportTicket;
+use App\Models\User;
 use App\Rules\FileTypeValidate;
 use App\Services\SendOtpService;
 use Carbon\Carbon;
@@ -344,6 +345,16 @@ class SiteController extends Controller
             $donor->image = $filename;
         }
         $donor->save();
+
+        $user = User::firstOrNew(['mobile' =>  $request->phone]);
+
+        $user->mobile = $donor->phone;
+        $user->name = $donor->name;
+        $user->email = $donor->email;
+        $user->role_id = 1;
+        $user->donor_id = $donor->id;
+        $user->save();
+
         $notify[] = ['success', 'Your Requested Submitted'];
         return back()->withNotify($notify);
     }

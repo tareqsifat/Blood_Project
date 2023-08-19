@@ -170,7 +170,7 @@
 								<input type="text" name="name" value="{{ old('name', $auth_name) }}" class="form--control form-control-md" placeholder="@lang('Enter name')" maxlength="80" required>
 							</div>
 							<div class="form-group">
-								<input type="number" name="number" value="{{old('number', $auth_number) }}" class="form--control form-control-md" placeholder="@lang('Enter phone number')" maxlength="80" required>
+								<input type="number" name="number" value="{{old('number', $auth_number) }}" class="form--control form-control-md" placeholder="@lang('Phone number of Patient')" maxlength="80" required>
 							</div>
 							<div class="form-group">
 								<input type="text" name="hospital" value="{{old('hospital')}}" class="form--control form-control-md" placeholder="@lang('name of the hospital')" maxlength="80" required>
