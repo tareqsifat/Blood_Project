@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\Donor;
 use App\Models\DonorAuthOtp;
+use App\Models\Location;
 use App\Models\User;
 use App\Services\SendOtpService;
 use Carbon\Carbon;
@@ -110,8 +111,9 @@ class DonorController extends Controller
     {
         $user = Auth::user()->donor;
         $pageTitle = "Donor Dashboard";
+        $thana = Location::find($user->location_id);
         $cities = City::where('status', 1)->get();
-        return view('donor.dashboard.dashboard', compact('pageTitle', 'user', 'cities'));
+        return view('donor.dashboard.dashboard', compact('pageTitle', 'user', 'cities', 'thana'));
     }
 
     public function logout() {
@@ -120,25 +122,37 @@ class DonorController extends Controller
         }
 
         Auth::logout();
-        return redirect()->back()->with('success', 'Logout successful');
+        return redirect()->route('home')->with('success', 'Logout Successfully');
     }
 
     public function donorUpdate(Request $request) {
+        // dd($request->all());
         $this->validate($request, [
-            'name'=> 'required',
             'email'=> 'required|email',
-            'mobile_number'=> 'required|regex:/^01[0-9]{9}$/',
             'district'=> 'required|integer',
-
+            // 'thana' => 'required',
+            'total_donate' => 'required',
+            'last_donate' => 'required'
         ]);
 
         $id = Auth::user()->donor->id;
 
         $donor = Donor::find($id);
-        $donor->name = $request->name;
+        if($donor->city_id != $request->district){
+            $notify[] = ['error', 'Thana is required'];
+            return redirect()->back()->withNotify($notify);
+        }
         $donor->email = $request->email;
-        $donor->phone = $request->mobile_number;
         $donor->city_id = $request->district;
+        $donor->location_id = $request->thana;
+        $socialMedia = [
+            'facebook' => $request->facebook,
+            'twitter' => $request->twitter,
+            'instagram' => $request->instagram
+        ];
+        $donor->socialMedia = $socialMedia;
+        $donor->total_donate = $request->total_donate;
+        $donor->last_donate = $request->last_donate;
         $donor->save();
 
         $notify[] = ['success', 'Donor Updated Successfully'];
@@ -149,6 +163,20 @@ class DonorController extends Controller
         $donor = Auth::user()->donor;
 
         // return view()
+    }
+
+    public function return_thana($id) {
+        $thanas = Location::where('city_id', $id)->select('id', 'name')->get();
+
+        $option = "<option value=''>--select--</option>";
+        foreach($thanas as $thana){
+            $id = $thana->id;
+            $name = $thana->name;
+            $option .= "<option value=$id>$name</option>";
+        }
+
+        return $option;
+        
     }
 
 }

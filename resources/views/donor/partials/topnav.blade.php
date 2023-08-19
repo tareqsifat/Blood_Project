@@ -13,28 +13,29 @@
         </div>
     </form>
 
-    <div class="navbar__left">
-        <button class="res-sidebar-open-btn"><i class="las la-bars"></i></button>
-        <button type="button" class="fullscreen-btn">
-            <i class="fullscreen-open las la-compress" onclick="openFullscreen();"></i>
-            <i class="fullscreen-close las la-compress-arrows-alt" onclick="closeFullscreen();"></i>
-        </button>
-    </div>
-
     <div class="navbar__right">
         <ul class="navbar__action-list">
-            <li>
-                <button type="button" class="navbar-search__btn-open">
-                    <i class="las la-search"></i>
-                </button>
-            </li>
-            {{-- @dd(Auth::user()) --}}
-
 
             <li class="dropdown">
                 <button type="button" class="" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false">
                   <span class="navbar-user">
-                    <span class="navbar-user__thumb"><img src="https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png" alt="image"></span>
+                    <span class="navbar-user__thumb">
+                        @if($user->image == null)
+
+						@if($donor->gender == 1)
+						<img class="lazyload" data-src="{{getImage('assets/images/donor/male.jpg')}}">
+
+						@else
+						<img class="lazyload" data-src="{{getImage('assets/images/donor/femail.jpg')}}">
+
+						@endif
+
+					@else
+
+						<img class="lazyload" data-src="{{getImage('assets/images/donor/'. $user->image, imagePath()['donor']['size'])}}" alt="@lang('image')">
+					@endif
+                        {{-- <img src="https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png" alt="image"> --}}
+                    </span>
                     <span class="navbar-user__info">
                         {{-- {{auth()->guard('admin')->user()->username ? auth()->guard('admin')->user()->username : ''}} --}}
                       <span class="navbar-user__name"></span>
@@ -49,7 +50,7 @@
                         <span class="dropdown-menu__caption">{{Auth::user()->name}}</span>
                     </a>
 
-                    <a href="{{ route('admin.logout') }}"
+                    <a href="{{ route('donor_login.logout') }}"
                        class="dropdown-menu__item d-flex align-items-center px-3 py-2">
                         <i class="dropdown-menu__icon las la-sign-out-alt"></i>
                         <span class="dropdown-menu__caption">@lang('Logout')</span>
