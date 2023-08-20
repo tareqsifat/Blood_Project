@@ -23,16 +23,16 @@
                         @if($user->image == null)
 
 						@if($donor->gender == 1)
-						<img class="lazyload" data-src="{{getImage('assets/images/donor/male.jpg')}}">
+						<img src="{{getImage('assets/images/donor/male.jpg')}}">
 
 						@else
-						<img class="lazyload" data-src="{{getImage('assets/images/donor/femail.jpg')}}">
+						<img src="{{getImage('assets/images/donor/femail.jpg')}}">
 
 						@endif
 
 					@else
 
-						<img class="lazyload" data-src="{{getImage('assets/images/donor/'. $user->image, imagePath()['donor']['size'])}}" alt="@lang('image')">
+						<img src="{{getImage('assets/images/donor/'. $user->image, imagePath()['donor']['size'])}}" alt="@lang('image')">
 					@endif
                         {{-- <img src="https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png" alt="image"> --}}
                     </span>

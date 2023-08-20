@@ -59,7 +59,6 @@
         <button type="submit" class="submit-btn mt-25 b-radius--capsule">@lang('Update') <i class="las la-sign-in-alt"></i></button>
     </div>
 </form>
-{{$thana}}
 @push('script')
     <script>
         $('#district').on('change',function(){
