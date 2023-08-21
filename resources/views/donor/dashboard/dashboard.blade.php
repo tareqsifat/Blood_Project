@@ -1,6 +1,6 @@
 @extends('donor.layouts.app')
 @section('panel')
-<form action="{{ route('donor_login.donor_update') }}" method="POST" class="cmn-form mt-30 donor_auth_otp_verify">
+<form action="{{ route('donor_login.donor_update') }}" method="POST" class="cmn-form mt-30 donor_auth_otp_verify" enctype="multipart/form-data">
     @csrf
     <div class="container">
         <div class="row">
@@ -50,7 +50,15 @@
             </div>
             <div class="form-group col-6">
                 <label for="thana">@lang("Last Donate")</label>
-                <input type="text" name="last_donate" id="last_donate" value="{{Carbon\Carbon::parse($user->last_donate)->format('d/m/Y')}}" data-language="en" placeholder="Enter Date" onfocus="(this.type='date')" class="form-control b-radius--capsule">
+                <input type="text" name="last_donate" id="last_donate" value="{{Carbon\Carbon::parse($user->last_donate)->format('dd/mm/yyyy')}}" data-language="en" placeholder="Enter Date" onfocus="(this.type='date')" class="form-control b-radius--capsule">
+            </div>
+            <div class="form-group col-6 d-flex justify-content-center">
+                <img src="{{getImage('assets/images/donor/'. $user->image, imagePath()['donor']['size'])}}" alt="{{$user->name}}"
+                    style="height: 200px;border-radius: 60%;">
+            </div>
+            <div class="form-group col-6">
+                <label for="file">@lang('Image') <sup class="text--danger"></sup></label>
+                <input type="file" id="file" name="image" class="form-control b-radius--capsule">
             </div>
         </div>
 

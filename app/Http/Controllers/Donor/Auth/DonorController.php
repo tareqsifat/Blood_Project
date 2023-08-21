@@ -130,7 +130,6 @@ class DonorController extends Controller
         $this->validate($request, [
             'email'=> 'required|email',
             'district'=> 'required|integer',
-            // 'thana' => 'required',
             'total_donate' => 'required',
             'last_donate' => 'required'
         ]);
@@ -153,6 +152,17 @@ class DonorController extends Controller
         $donor->socialMedia = $socialMedia;
         $donor->total_donate = $request->total_donate;
         $donor->last_donate = $request->last_donate;
+        $path = imagePath()['donor']['path'];
+        $size = imagePath()['donor']['size'];
+        if ($request->hasFile('image')) {
+            try {
+                $filename = uploadImage($request->image, $path, $size);
+            } catch (\Exception $exp) {
+                $notify[] = ['error', 'Image could not be uploaded.'];
+                return back()->withNotify($notify);
+            }
+            $donor->image = $filename;
+        }
         $donor->save();
 
         $notify[] = ['success', 'Donor Updated Successfully'];

@@ -7,11 +7,7 @@
                 <p>{{__($pageTitle)}} @lang('to')  {{__($general->sitename)}} @lang('dashboard')</p>
                 <form action="{{ route('donor_login.verify_otp') }}" method="POST" class="cmn-form mt-30 donor_auth_otp_verify">
                     @csrf
-                    <div class="form-group">
-                        <label for="mobile_number">@lang('Enter Mobile Number')</label>
-                        <input type="text" name="mobile_number" class="form-control b-radius--capsule auth_otp_number" id="mobile_number" value="{{ old('mobile_number', $mobile_number) }}" placeholder="@lang('Enter Mobile Number')">
-                        <i class="las la-user input-icon"></i>
-                    </div>
+                    <input type="hidden" name="mobile_number" value="{{ $mobile_number }}">
                     <div class="form-group">
                         <label for="auth_otp">@lang('Enter Otp')</label>
                         <input type="text" name="auth_otp" class="form-control b-radius--capsule" id="auth_otp" value="{{ old('auth_otp') }}" placeholder="@lang('Enter Otp')">
