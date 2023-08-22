@@ -28,13 +28,36 @@
                 <div class="col-lg-6 col-md-6 col-sm-6 text-sm-end text-center">
                     <div class="container">
                         <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6"></div>
-                            <div class="col-lg-6 col-md-6 col-sm-6" >
+                            <div class="col-lg-10 col-md-9 col-sm-9" >
                                 <select class="language-select langSel">
                                     @foreach($language as $item)
                                         <option value="{{$item->code}}" @if(session('lang') == $item->code) selected  @endif>{{ __($item->name) }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-3">
+                                @if(Auth::check())
+                                    <div class="dropdown">
+                                        <button class="dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false"
+                                        style="background-color: transparent; border: 3px solid #FB3640;">
+                                            <img src="{{getImage('assets/images/donor/'. Auth::user()->donor->image, imagePath()['donor']['size'])}}" alt="User" class="rounded-circle user-image">
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                                            <li><a class="dropdown-item" href="{{ route('donor_login.dashboard') }}">{{Auth::user()->name}}</a></li>
+                                            <form action="{{ route('blood-seeker.logout') }}" method="post">
+                                                @csrf
+                                                <li><button type="submit" class="dropdown-item">Logout</button></li>
+                                            </form>
+                                            <!-- Add more list items as needed -->
+                                        </ul>
+                                    </div>
+                                @else
+                                    <div class="container">
+                                        <div>
+                                            <a href="{{ route('donor_login.login')}}"><img src="https://icon-library.com/images/customer-login-icon/customer-login-icon-17.jpg" style="background-color: #ffffff; height: 50px !important; border-radius: 50%"></a>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
